@@ -8,39 +8,55 @@ namespace csharp_gestore_eventi
 {
     internal class Evento
     {
+        private string titolo;
         public string Titolo
         {
             get
             {
-                return Titolo;
+                return this.titolo;
             }
             set
             {
-                if (value == null)
+                try
                 {
-                    throw new ArgumentNullException("value");
+                    if (value == "" || value == null)
+                    {
+                        throw new ArgumentNullException("value");
+                    }
+                    else
+                    {
+                        this.titolo = value;
+                    }
                 }
-                else
+                catch (ArgumentNullException)
                 {
-                    Titolo = value;
+                    Console.WriteLine("Errore: Il campo non può essere vuoto!");
                 }
             }
         }
+        private DateTime data;
         public DateTime Data
         {
             get
             {
-                return Data;
+                return this.data;
             }
             set
             {
-                if(value < DateTime.Now)
+                try
                 {
-                    throw new ArgumentOutOfRangeException("value");
+                    if(value < DateTime.Now)
+                    {
+                        throw new ArgumentOutOfRangeException("value");
+                    }
+                    else
+                    {
+                        this.data = value;
+                    }
                 }
-                else
+                catch (ArgumentOutOfRangeException)
                 {
-                    Data = value;
+                    Console.WriteLine("Errore: Hai inserito una data già passata!");
                 }
             }
         }
@@ -94,6 +110,23 @@ namespace csharp_gestore_eventi
         public override string ToString()
         {
             return this.Data.ToString("dd/MM/yyyy") + " - " + this.Titolo;
+        }
+
+        public static void NuovoEvento()
+        {
+            Console.WriteLine("Inserisci il nome dell'evento.");
+            string nomeEvento = Console.ReadLine();
+            Console.WriteLine("");
+
+            Console.WriteLine("Inserisci la data dell'evento.");
+            string dataEvento = Console.ReadLine();
+            Console.WriteLine("");
+
+            Console.WriteLine("Inserisci la capienza massima dell'evento.");
+            uint capienzaEvento = uint.Parse(Console.ReadLine());
+            Console.WriteLine("");
+
+            Evento evento = new Evento(nomeEvento, DateTime.Parse(dataEvento), capienzaEvento);
         }
     }
 }
