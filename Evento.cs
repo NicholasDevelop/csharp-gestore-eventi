@@ -64,9 +64,13 @@ namespace csharp_gestore_eventi
                 Console.WriteLine("La prenotazione è andata a buon fine!");
                 this.PostiPrenotati += posti;
             }
-            else
+            else if( postiDisponibili >= this.CapienzaMassima )
             {
                 Console.WriteLine($"Non ci sono abbastanza posti disponibili. Sono rimasti solo {postiDisponibili} liberi");
+            }
+            else if( this.Data < DateTime.Now)
+            {
+                Console.WriteLine("L'evento è già passato");
             }
         }
 
@@ -77,15 +81,19 @@ namespace csharp_gestore_eventi
                 Console.WriteLine("La disdetta dei posti è andata a buon fine!");
                 this.PostiPrenotati -= posti;
             }
-            else
+            else if(posti > this.PostiPrenotati)
             {
-                Console.WriteLine($"Non ci sono abbastanza posti da disdire. Sono rimasti {PostiPrenotati} posti prenotati.");
+                Console.WriteLine($"Non ci sono abbastanza posti da disdire. Sono rimasti {this.PostiPrenotati} posti prenotati.");
+            }
+            else if(this.Data < DateTime.Now)
+            {
+                Console.WriteLine("L'evento è già passato");
             }
         }
 
         public override string ToString()
         {
-            return this.Data.ToString("dd/MM/yyyy") + " - " + Titolo;
+            return this.Data.ToString("dd/MM/yyyy") + " - " + this.Titolo;
         }
     }
 }
